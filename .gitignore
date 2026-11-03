@@ -1,0 +1,9 @@
+# build output
+build/
+*.o
+# Python caches
+__pycache__/
+*.pyc
+# runtime output (recordings made by the terrestrial module)
+terrestrial/recordings/
+*.wav

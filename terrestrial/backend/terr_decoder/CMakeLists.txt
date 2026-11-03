@@ -1,0 +1,10 @@
+add_executable(securecom_terr_decoder main.cpp)
+target_include_directories(securecom_terr_decoder SYSTEM PRIVATE /usr/include /usr/local/include)
+target_include_directories(securecom_terr_decoder PRIVATE ../common)
+set(GRLIBS runtime blocks digital filter analog fft pmt zeromq)
+set(GRLINK "")
+foreach(l IN LISTS GRLIBS)
+  list(APPEND GRLINK "${SYSLIB}/libgnuradio-${l}.so")
+endforeach()
+target_link_libraries(securecom_terr_decoder PRIVATE backend_deps ${GRLINK} /usr/local/lib/x86_64-linux-gnu/libgnuradio-dsd.so boost_system boost_thread
+                      "${SYSLIB}/libfmt.so.8" "${SYSLIB}/libvolk.so.2.5" z dl "-Wl,-rpath,/usr/local/lib/x86_64-linux-gnu")

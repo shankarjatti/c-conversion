@@ -1,0 +1,62 @@
+{
+  "_comment": "Air & maritime module: routes by the centre frequency in each message header (nearest within tol_hz); rate_sps is only checked. 'ignore' lists the frequencies of the OTHER module, which are dropped silently. Re-read every 2 s while the Ingest runs.",
+  "by_topic": {},
+  "routes": [
+    {
+      "band": "ais",
+      "module": "air",
+      "centre_hz": 162000000,
+      "tol_hz": 100000,
+      "rate_sps": 250000
+    },
+    {
+      "band": "adsb",
+      "module": "air",
+      "centre_hz": 1090000000,
+      "tol_hz": 500000,
+      "rate_sps": 6000000
+    }
+  ],
+  "ignore": [
+    {
+      "centre_hz": 446118528,
+      "tol_hz": 50000,
+      "band": "dmr"
+    },
+    {
+      "centre_hz": 451093750,
+      "tol_hz": 50000,
+      "band": "nxdn"
+    },
+    {
+      "centre_hz": 450093750,
+      "tol_hz": 50000,
+      "band": "p25"
+    },
+    {
+      "centre_hz": 420000000,
+      "tol_hz": 50000,
+      "band": "tetra"
+    },
+    {
+      "centre_hz": 451006250,
+      "tol_hz": 50000,
+      "band": "nxdn48"
+    },
+    {
+      "centre_hz": 439412500,
+      "tol_hz": 50000,
+      "band": "dstar"
+    },
+    {
+      "centre_hz": 452000000,
+      "tol_hz": 50000,
+      "band": "x2tdma"
+    },
+    {
+      "centre_hz": 453000000,
+      "tol_hz": 50000,
+      "band": "provoice"
+    }
+  ]
+}

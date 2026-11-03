@@ -1,0 +1,2 @@
+add_executable(securecom_ingest main.cpp)
+target_link_libraries(securecom_ingest PRIVATE backend_deps)
