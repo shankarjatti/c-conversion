@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-"""Lab stand-in for the RTOS with a real USRP B210: continuous IQ of ONE channel, published the way the RTOS will publish it.
+"""Lab stand-in for the RTOS with a real USRP B210 for the AIR & MARITIME module: continuous IQ of ONE band (AIS or ADS-B), published the way the RTOS will publish it.
 
-  python3 tools/b210_source.py [--freq 446.118528] [--gain 24] [--rate 200000] [--antenna RX2] [--addr tcp://127.0.0.1:5580]
+  python3 tools/b210_source.py --freq 162.0 --rate 250000 [--gain 40]   (AIS)    or    --freq 1090.0 --rate 6000000 [--gain 40]   (ADS-B)    [--antenna RX2] [--addr tcp://127.0.0.1:5580]
 
 One PUB socket (bound at --addr, which the Ingest subscribes to), topic "iq", 3 frames per message:
-  header {"centre_hz", "rate_sps", "seq", "t", "n"}   payload complex64, n = 4000 samples (20 ms at 200 kSps)
+  header {"centre_hz", "rate_sps", "seq", "t", "n"}   payload complex64, n = rate/50 samples (20 ms of IQ: 5000 for AIS, 120000 for ADS-B)
 The Ingest routes it by centre_hz (a route within +-50 kHz of the tuned frequency). Nothing is invented: when the B210 reports an
 overflow the samples are lost, `seq` skips one number (the Ingest counts it as upstream loss) and the overflow is printed.
-Every 5 s: level (rms dBFS), peak, clipped samples, messages sent, overflows. Gain guide (earlier bench tests): ~24 dB with the
-radio next to the antenna (40 dB gave -2 dBFS rms = clipping risk); aim for the signal at -45 ... -25 dBFS rms while keyed.
+Every 5 s: level (rms dBFS), peak, clipped samples, messages sent, overflows. Gain: the level line shows rms/peak/clipped samples; reduce the gain if samples clip.
 Needs UHD python (system package) and the B210 on USB 3. Run with PATH=/usr/local/bin:/usr/bin:/bin (UHD 4.10).
 """
 import argparse
@@ -21,9 +20,9 @@ import numpy as np
 import zmq
 
 ap = argparse.ArgumentParser()
-ap.add_argument('--freq', type=float, default=446.118528, help='centre frequency, MHz')
-ap.add_argument('--gain', type=float, default=24.0, help='RX gain, dB')
-ap.add_argument('--rate', type=float, default=200000.0, help='sample rate, Sps (the terrestrial decoders expect 200000)')
+ap.add_argument('--freq', type=float, required=True, help='centre frequency, MHz (162.0 for AIS, 1090.0 for ADS-B)')
+ap.add_argument('--gain', type=float, default=40.0, help='RX gain, dB')
+ap.add_argument('--rate', type=float, required=True, help='sample rate, Sps (250000 for AIS, 6000000 for ADS-B: what the decoder expects)')
 ap.add_argument('--antenna', default='RX2')
 ap.add_argument('--args', default='', help='UHD device args, e.g. type=b200')
 ap.add_argument('--addr', default='tcp://127.0.0.1:5580')

@@ -10,7 +10,7 @@
 #   tools/run_air_maritime.sh status | stop | restart [...] | ui | logs [name]
 #
 # Environment: SECURECOM_RTOS_ADDR (where the RTOS publishes, default tcp://127.0.0.1:5580), SECURECOM_IQ_PUB_ADDR (the Ingest's output,
-# default tcp://127.0.0.1:5571: this module has its own port, so it can run next to the terrestrial module), SECURECOM_EDGE_RUN (scratch dir).
+# default tcp://127.0.0.1:5571: this module has its own port, so another module can run on the same machine), SECURECOM_EDGE_RUN (scratch dir).
 set -u
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 RUN="${SECURECOM_EDGE_RUN:-/tmp/securecom_air_maritime}"
