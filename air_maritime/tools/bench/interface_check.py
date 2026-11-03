@@ -15,7 +15,6 @@ import time
 import zmq
 
 SECS = float(sys.argv[1]) if len(sys.argv) > 1 else 20
-TERR_BANDS = {'dmr', 'nxdn', 'p25', 'tetra', 'nxdn48', 'dstar', 'x2tdma', 'provoice'}
 ALL_BANDS = {'ais', 'adsb'}
 num = (int, float)
 violations = collections.Counter()
